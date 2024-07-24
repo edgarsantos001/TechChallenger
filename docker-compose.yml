@@ -1,0 +1,43 @@
+version: '3.4'
+
+services:
+  pedidoservice:
+    image: pedidoservice
+    build:
+      context: ./PedidoService
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+  produtoservice:
+    image: produtoservice
+    build:
+      context: . #/ProdutoService
+      dockerfile: Dockerfile
+    ports:
+      - "5001:80"
+  pagamentosevice:
+    image: pagamentoservice
+    build:
+      context: . #/PagamentoService
+      dockerfile: Dockerfile
+    ports:
+      - "5002:80"
+  # clienteservice:
+  #   image: clienteservice
+  #   build:
+  #     context: . #/ClienteService
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "5003:80"
+  # notificationservice:
+  #   image: notificationservice
+  #   build:
+  #     context: . #/NotificationService
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "5004:80"
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "15672:15672"
+      - "5672:5672"

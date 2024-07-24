@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Pedido.Models;
+using Pedido.Models.Interface;
 
 namespace Pedido.Controllers
 {
@@ -6,6 +8,13 @@ namespace Pedido.Controllers
     [Route("api/[controller]")]
     public class PedidoController : ControllerBase
     {
+        private readonly IPedidoService _pedidoService;
+
+        public PedidoController(IPedidoService pedidoService)
+        {
+            _pedidoService = pedidoService;        
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -13,15 +22,36 @@ namespace Pedido.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create()
+        public IActionResult Create([FromBody]PedidoModel pedido)
         {
-            return Ok();
+            var newPedido = _pedidoService.CreatePedido(pedido);
+            if (newPedido != null)
+            {
+                return Ok(newPedido);
+            }
+            return BadRequest("Erro ao Criar Pedido.");
         }
 
-        [HttpPut]
-        public IActionResult Edit()
+        [HttpGet("{id}")]
+        public IActionResult GetPedidoById(int id)
         {
-            return Ok();
+            var pedido = _pedidoService.GetPedidoById(id);
+            if (pedido != null)
+            {
+                return Ok(pedido);
+            }
+            return NotFound("Pedido not found.");
+        }
+
+        [HttpPut("{id}/status")]
+        public IActionResult Edit(int id, [FromBody] string status)
+        {
+            var pedido = _pedidoService.UpdatePedidoStatus(id, status);
+            if (pedido != null)
+            {
+                return Ok(pedido);
+            }
+            return BadRequest("Erro ao Atualizar o Status do Pedido.");
         }
 
         [HttpPut("{id}")]

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pedido", "PedidoService\Pedido.csproj", "{2910D6F2-F97C-4CA1-82C7-174005580034}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PedidoService", "PedidoService\PedidoService.csproj", "{2910D6F2-F97C-4CA1-82C7-174005580034}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProdutoService", "ProdutoService\ProdutoService.csproj", "{27B5473A-E73D-436C-B0AD-F7736D53D9EB}"
 EndProject
@@ -12,8 +12,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClienteService", "ClienteService\ClienteService.csproj", "{A8B24796-B944-4C2F-B6E3-EACB108B6228}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotificationService", "NotificationService\NotificationService.csproj", "{F30D1937-95D7-4E41-B18D-64CF02446288}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PedidoApi", "PedidoApi\PedidoApi.csproj", "{6944E95C-5104-46ED-80FF-527DD3ACDFB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +39,6 @@ Global
 		{F30D1937-95D7-4E41-B18D-64CF02446288}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F30D1937-95D7-4E41-B18D-64CF02446288}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F30D1937-95D7-4E41-B18D-64CF02446288}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6944E95C-5104-46ED-80FF-527DD3ACDFB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6944E95C-5104-46ED-80FF-527DD3ACDFB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6944E95C-5104-46ED-80FF-527DD3ACDFB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6944E95C-5104-46ED-80FF-527DD3ACDFB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

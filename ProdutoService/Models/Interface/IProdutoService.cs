@@ -3,8 +3,9 @@
     public interface IProdutoService
     {
         List<ProdutoModel> GetAllProdutos();
-        ProdutoModel CreateProduto(ProdutoModel produto);
-        ProdutoModel UpdateProduto(int id, ProdutoModel produto);
-        bool DeleteProduto(int id);
+        ProdutoModel GetProdutoById(int id);
+        void CreateProduto(ProdutoModel produto);
+        void UpdateProduto(int id, ProdutoModel produto);
+        void DeleteProduto(int id);
     }
 }

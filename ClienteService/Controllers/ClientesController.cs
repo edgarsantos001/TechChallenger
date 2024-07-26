@@ -13,11 +13,20 @@ namespace ClienteService.Controllers
             _clienteService = clienteService;
         }
 
+
+        [HttpGet]
+        public IActionResult GetClientes()
+        {
+            var clientes = _clienteService.GetClientes();
+            return Ok(clientes);
+        }
+
+
         [HttpPost]
         public IActionResult CreateCliente([FromBody] ClienteModel cliente)
         {
-            var newCliente = _clienteService.CreateCliente(cliente);
-            return Ok(newCliente);
+            _clienteService.CreateCliente(cliente);
+            return Ok();
         }
 
         [HttpGet("{id}")]
@@ -34,23 +43,15 @@ namespace ClienteService.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateCliente(int id, [FromBody] ClienteModel cliente)
         {
-            var updatedCliente = _clienteService.UpdateCliente(id, cliente);
-            if (updatedCliente != null)
-            {
-                return Ok(updatedCliente);
-            }
-            return NotFound("Cliente not found.");
+            _clienteService.UpdateCliente(id, cliente);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteCliente(int id)
         {
-            var result = _clienteService.DeleteCliente(id);
-            if (result)
-            {
-                return Ok();
-            }
-            return NotFound("Cliente not found.");
+           _clienteService.DeleteCliente(id);
+            return Ok();
         }
     }
 }

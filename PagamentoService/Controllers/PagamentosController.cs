@@ -17,25 +17,17 @@ namespace PagamentoService.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreatePagamento([FromBody] PagamentoModel pagamento)
+        public IActionResult ProcessarPagamento([FromBody] PagamentoModel pagamento)
         {
-            var newPagamento = _pagamentoService.CreatePagamento(pagamento);
-            if (newPagamento != null)
-            {
-                return Ok(newPagamento);
-            }
-            return BadRequest("Error creating pagamento.");
+            _pagamentoService.ProcessarPagamento(pagamento);
+            return Ok();
         }
 
         [HttpPost("webhook")]
         public IActionResult ConfirmPagamento([FromBody] PagamentoWebhook webhook)
         {
-            var result = _pagamentoService.ConfirmPagamento(webhook);
-            if (result)
-            {
-                return Ok();
-            }
-            return BadRequest("Error confirming pagamento.");
+            _pagamentoService.AtualizarStatusPagamento(webhook.PagamentoId, webhook.Status);
+            return Ok();
         }
     }
 }

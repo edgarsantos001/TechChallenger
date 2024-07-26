@@ -16,6 +16,13 @@ namespace ProdutoService.Controllers
             _produtoService = produtoService;
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetProdutoById(string id)
+        {
+            var produto = _produtoService.GetProdutoById(Convert.ToInt32(id));
+            return Ok(produto);
+        }
+
 
         [HttpGet]
         public IActionResult GetAllProdutos()
@@ -28,28 +35,22 @@ namespace ProdutoService.Controllers
         [HttpPost]
         public IActionResult CreateProduto([FromBody] ProdutoModel produto)
         {
-           var novoProduto = _produtoService.CreateProduto(produto);
-            return Ok(novoProduto);
+            _produtoService.CreateProduto(produto);
+            return Ok();
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateProduto(int id, [FromBody] ProdutoModel produto)
         {
-            var produtoAtualizado = _produtoService.UpdateProduto(id, produto);
-            if(produtoAtualizado != null)
-                return Ok(produtoAtualizado);
-        
-           return NotFound("Produto Não Encontrado.");
+            _produtoService.UpdateProduto(id, produto);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteProduto(int id)
         {
-            bool produto = _produtoService.DeleteProduto(id);
-            if(produto)
-                return Ok();
-        
-           return NotFound("Produto Não Encontrado.");
+            _produtoService.DeleteProduto(id);
+            return Ok();
         }
     }
 }

@@ -13,6 +13,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClienteService", "ClienteSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotificationService", "NotificationService\NotificationService.csproj", "{F30D1937-95D7-4E41-B18D-64CF02446288}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{261CF563-4121-459A-A283-0A2E47BA33F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frontend", "frontend", "{82A06261-AE8D-4491-9A10-2EB046B280AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{E625FB7D-F6A6-4C95-B254-4F3805A551AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B06580FC-064F-4667-A758-4B1EF1B94129}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{E04B1F0D-FCE0-4DF9-BAC0-8CBBD2D0F91C}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +55,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2910D6F2-F97C-4CA1-82C7-174005580034} = {261CF563-4121-459A-A283-0A2E47BA33F9}
+		{27B5473A-E73D-436C-B0AD-F7736D53D9EB} = {261CF563-4121-459A-A283-0A2E47BA33F9}
+		{8FA37A31-C769-40BB-A8C7-55E1EC30175D} = {261CF563-4121-459A-A283-0A2E47BA33F9}
+		{A8B24796-B944-4C2F-B6E3-EACB108B6228} = {261CF563-4121-459A-A283-0A2E47BA33F9}
+		{F30D1937-95D7-4E41-B18D-64CF02446288} = {261CF563-4121-459A-A283-0A2E47BA33F9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F64C8FB8-8717-4E0D-AA60-2B2C2A44E587}

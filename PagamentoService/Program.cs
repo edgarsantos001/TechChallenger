@@ -1,3 +1,4 @@
+using PagamentoService.Data;
 using PagamentoService.Models.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IPagamentoService, PagamentoService.Services.PagamentoService>();
+builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddScoped<IPagamentoService, PagamentoService.Services.PagamentoService>();
 
 var app = builder.Build();
 

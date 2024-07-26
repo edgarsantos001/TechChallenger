@@ -1,3 +1,4 @@
+using ClienteService.Data;
 using ClienteService.Models.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IClienteService, ClienteService.Services.ClienteService>();
+
+
+builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddScoped<IClienteService, ClienteService.Services.ClienteService>();
 
 var app = builder.Build();
 

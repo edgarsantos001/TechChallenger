@@ -24,12 +24,8 @@ namespace Pedido.Controllers
         [HttpPost]
         public IActionResult Create([FromBody]PedidoModel pedido)
         {
-            var newPedido = _pedidoService.CreatePedido(pedido);
-            if (newPedido != null)
-            {
-                return Ok(newPedido);
-            }
-            return BadRequest("Erro ao Criar Pedido.");
+            _pedidoService.CreatePedido(pedido);
+            return Ok();
         }
 
         [HttpGet("{id}")]
@@ -46,12 +42,8 @@ namespace Pedido.Controllers
         [HttpPut("{id}/status")]
         public IActionResult Edit(int id, [FromBody] string status)
         {
-            var pedido = _pedidoService.UpdatePedidoStatus(id, status);
-            if (pedido != null)
-            {
-                return Ok(pedido);
-            }
-            return BadRequest("Erro ao Atualizar o Status do Pedido.");
+             _pedidoService.UpdatePedidoStatus(id, status);
+            return Ok();
         }
 
         [HttpPut("{id}")]

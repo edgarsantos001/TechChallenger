@@ -1,3 +1,4 @@
+using NotificationService.Data;
 using NotificationService.Models.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<INotificacaoService, NotificationService.Services.NotificacaoService>();
+builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddScoped<INotificacaoService, NotificationService.Services.NotificacaoService>();
 
 var app = builder.Build();
 

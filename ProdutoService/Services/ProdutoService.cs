@@ -1,48 +1,59 @@
-﻿using ProdutoService.Models;
+﻿using ProdutoService.Data;
+using ProdutoService.Models;
 using ProdutoService.Models.Interface;
 
 namespace ProdutoService.Services
 {
     public class ProdutoService : IProdutoService
     {
-        private readonly List<ProdutoModel> _produtos = new List<ProdutoModel>();
+       
+        private readonly AppDbContext _context;
+
+
+        public ProdutoService(AppDbContext context)
+        {
+            _context = context; 
+        }
+
+        public ProdutoModel GetProdutoById(int id) 
+        {  
+           return _context.Produtos.FirstOrDefault(p => p.Id == id);
+        }
 
         public List<ProdutoModel> GetAllProdutos()
         {
-            return _produtos;
+            return _context.Produtos.ToList();
         }
 
 
-        public ProdutoModel CreateProduto(ProdutoModel produto)
+        public void CreateProduto(ProdutoModel produto)
         {
-            produto.Id = _produtos.Count + 1;
-            _produtos.Add(produto);
-            return produto;
+            _context.Produtos.Add(produto);
+            _context.SaveChanges();
         }
 
-        public ProdutoModel UpdateProduto(int id, ProdutoModel produto)
+        public void UpdateProduto(int id, ProdutoModel produto)
         {
-            var existingProduto = _produtos.FirstOrDefault(p => p.Id == id);
+            var existingProduto = _context.Produtos.FirstOrDefault(p => p.Id == id);
             if (existingProduto != null)
             {
                 existingProduto.Nome = produto.Nome;
                 existingProduto.Descricao = produto.Descricao;
                 existingProduto.Preco = produto.Preco;
                 existingProduto.Categoria = produto.Categoria;
-                return existingProduto;
+                _context.Produtos.Update(existingProduto);  
+                _context.SaveChanges();
             }
-            return null;
         }
 
-        public bool DeleteProduto(int id)
+        public void DeleteProduto(int id)
         {
-            var produto = _produtos.FirstOrDefault(p => p.Id == id);
+            var produto = _context.Produtos.FirstOrDefault(p => p.Id == id);
             if (produto != null)
             {
-                _produtos.Remove(produto);
-                return true;
+                _context.Produtos.Remove(produto);
+                _context.SaveChanges();
             }
-            return false;
         }
 
     }

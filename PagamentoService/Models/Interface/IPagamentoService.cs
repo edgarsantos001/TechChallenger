@@ -4,7 +4,7 @@ namespace PagamentoService.Models.Interface
 {
     public interface IPagamentoService
     {
-        PagamentoModel CreatePagamento(PagamentoModel pagamento);
-        bool ConfirmPagamento(PagamentoWebhook webhook);
+        void ProcessarPagamento(PagamentoModel pagamento);
+        void AtualizarStatusPagamento(int id,  string status);
     }
 }

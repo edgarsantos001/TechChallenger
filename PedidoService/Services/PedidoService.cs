@@ -5,87 +5,69 @@ using System.Text.Json;
 using System.Text;
 using RabbitMQ.Client.Events;
 using PedidoService.Models;
+using PedidoService.Data;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Pedido.Services
 {
     public class PedidoService : IPedidoService
     {
-        private readonly List<PedidoModel> _pedido = new List<PedidoModel>();
 
-        public PedidoService()
+        private readonly AppDbContext _context;
+        private readonly IConnection _connection;
+        private readonly IModel _channel;
+        
+        public PedidoService(AppDbContext context)
         {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
-            using (var connection = factory.CreateConnection())
-            {
-                var channel = connection.CreateModel();
-                channel.QueueDeclare(queue: "PagamentoQueue",
-                                     durable: false,
-                                     exclusive: false,
-                                     autoDelete: false,
-                                     arguments: null);
-                var consumer = new EventingBasicConsumer(channel);
-                consumer.Received += (model, ea) =>
-                {
-                    var body = ea.Body.ToArray();
-                    var message = Encoding.UTF8.GetString(body);
-                    var pagamento = JsonSerializer.Deserialize<PagamentoModel>(message);
+            _context = context;
 
-                    if(pagamento != null)
-                    {
-                        UpdatePedidoStatus(pagamento.PedidoId, pagamento.Status);
-                    }
-                };
-                 channel.BasicConsume(queue: "PagamentoQueue",
-                                     autoAck: true,
-                                     consumer: consumer);
-            }
+            var factory = new ConnectionFactory() { HostName = "rabbitmq" };
+            _connection = factory.CreateConnection();
+            _channel = _connection.CreateModel();
+            _channel.QueueDeclare(queue: "pedidoQueue",
+                                 durable: false,
+                                 exclusive: false,
+                                 autoDelete: false,
+                                 arguments: null);
+
         }
 
-        public PedidoModel CreatePedido(PedidoModel pedido)
+        public void CreatePedido(PedidoModel pedido)
         {
-            pedido.Id = _pedido.Count + 1;
-            pedido.Status = "Recebido";
-            _pedido.Add(pedido);
+            _context.Pedidos.Add(pedido);
+            _context.SaveChanges();
 
-            return pedido;
+            var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(pedido));
+            _channel.BasicPublish(exchange: "",
+                                 routingKey: "pedidoQueue",
+                                 basicProperties: null,
+                                 body: body);
         }
 
         public PedidoModel GetPedidoById(int id)
         {
-            return _pedido.FirstOrDefault(p => p.Id == id);
+            return _context.Pedidos.FirstOrDefault(p => p.Id == id);
         }
 
-        public PedidoModel UpdatePedidoStatus(int id, string status)
+        public void UpdatePedidoStatus(int id, string status)
         {
-            var pedido = _pedido.FirstOrDefault(p => p.Id == id);
+            var pedido = _context.Pedidos.FirstOrDefault(p => p.Id == id);
 
             if (pedido != null)
-                pedido.Status = status;
-            
-            return pedido;
-        }
-        private void PublishMessage(PedidoModel pedido)
-        {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "PedidoQueue",
-                                     durable: false,
-                                     exclusive: false,
-                                     autoDelete: false,
-                                     arguments: null);
+                pedido.Status = status;
+                _context.Pedidos.Update(pedido);
+                _context.SaveChanges();
 
-                var message = JsonSerializer.Serialize(pedido);
-                var body = Encoding.UTF8.GetBytes(message);
 
-                channel.BasicPublish(exchange: "",
-                                     routingKey: "PedidoQueue",
+                var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(pedido));
+                _channel.BasicPublish(exchange: "",
+                                     routingKey: "pedidoQueue",
                                      basicProperties: null,
                                      body: body);
+            
             }
         }
-
-
     }
 }

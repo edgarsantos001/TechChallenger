@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using ProdutoService.Data;
 using ProdutoService.Models.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,12 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProdutoService API", Version = "v1" });
-});
+builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IProdutoService, ProdutoService.Services.ProdutoService>();
+builder.Services.AddDbContext<AppDbContext>();
+
+builder.Services.AddScoped<IProdutoService, ProdutoService.Services.ProdutoService>();
 
 var app = builder.Build();
 
@@ -20,11 +20,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProdutoService API v1");
-        c.RoutePrefix = string.Empty;  // Para acessar diretamente via /swagger
-    });
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

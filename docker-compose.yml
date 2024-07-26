@@ -1,43 +1,100 @@
-version: '3.4'
+version: '3.8'
 
 services:
-  pedidoservice:
-    image: pedidoservice
+  pedidservice:
+    image: pedidservice
+    container_name: PedidoService
     build:
-      context: ./PedidoService
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: PedidoService/Dockerfile
     ports:
       - "5000:80"
-  produtoservice:
-    image: produtoservice
+    depends_on:
+      - rabbitmq
+      - mysql
+    networks:
+      - dockernetwork
+
+  produtservice:
+    image: produtservice
+    container_name: ProdutoService
     build:
-      context: . #/ProdutoService
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ProdutoService/Dockerfile
     ports:
       - "5001:80"
-  pagamentosevice:
-    image: pagamentoservice
+    depends_on:
+      - rabbitmq
+      - mysql
+    networks:
+      - dockernetwork
+
+  pagamentservice:
+    image: pagamentservice
+    container_name: PagamentoService
     build:
-      context: . #/PagamentoService
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: PagamentoService/Dockerfile
     ports:
       - "5002:80"
-  # clienteservice:
-  #   image: clienteservice
-  #   build:
-  #     context: . #/ClienteService
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5003:80"
-  # notificationservice:
-  #   image: notificationservice
-  #   build:
-  #     context: . #/NotificationService
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5004:80"
+    depends_on:
+      - rabbitmq
+      - mysql
+    networks:
+      - dockernetwork
+
+  clienteservice:
+    image: clienteservice
+    container_name: ClienteService
+    build:
+      context: .
+      dockerfile: ClienteService/Dockerfile
+    ports:
+      - "5003:80"
+    depends_on:
+      - rabbitmq
+      - mysql
+    networks:
+      - dockernetwork
+
+  notificationservice:
+    image: notificationservice
+    container_name: NotificationService
+    build:
+      context: .
+      dockerfile: NotificationService/Dockerfile
+    ports:
+      - "5004:80"
+    depends_on:
+      - rabbitmq
+      - mysql
+    networks:
+      - dockernetwork
+
   rabbitmq:
     image: "rabbitmq:3-management"
+    container_name: rabbitmq
     ports:
-      - "15672:15672"
       - "5672:5672"
+      - "15672:15672"
+    networks:
+      - dockernetwork
+
+  mysql:
+    image: "mysql"
+    command: --innodb-use-native-aio=0
+    container_name: mysql-db
+    restart: always
+    tty: true
+    ports:
+      - "3307:3306"
+    environment:
+     - MYSQL_DATABASE=msqldb
+     - MYSQL_ROOT_PASSWORD=tech@123
+    networks:
+      - dockernetwork
+
+networks:
+  dockernetwork:
+    driver: bridge
+    name: dockernetwork   

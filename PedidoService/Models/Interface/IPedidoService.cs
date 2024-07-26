@@ -2,8 +2,8 @@
 {
     public interface IPedidoService
     {
-        PedidoModel CreatePedido(PedidoModel pedido);
+        void CreatePedido(PedidoModel pedido);
         PedidoModel GetPedidoById(int id);
-        PedidoModel UpdatePedidoStatus(int id, string status);
+        void UpdatePedidoStatus(int id, string status);
     }
 }

@@ -2,9 +2,12 @@
 {
     public interface IClienteService
     {
-        ClienteModel CreateCliente(ClienteModel cliente);
+
+        List<ClienteModel> GetClientes();
         ClienteModel GetClienteById(int id);
-        ClienteModel UpdateCliente(int id, ClienteModel cliente);
-        bool DeleteCliente(int id);
+        void CreateCliente(ClienteModel cliente);
+
+        void UpdateCliente(int id, ClienteModel cliente);
+        void DeleteCliente(int id);
     }
 }

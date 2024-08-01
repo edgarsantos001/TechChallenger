@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   pedidservice:
-    image: pedidservice
+    image: easantos0001/pedidservice
     container_name: PedidoService
     build:
       context: .
@@ -16,7 +16,7 @@ services:
       - dockernetwork
 
   produtservice:
-    image: produtservice
+    image: easantos0001/produtservice
     container_name: ProdutoService
     build:
       context: .
@@ -30,7 +30,7 @@ services:
       - dockernetwork
 
   pagamentservice:
-    image: pagamentservice
+    image: easantos0001/pagamentservice
     container_name: PagamentoService
     build:
       context: .
@@ -44,7 +44,7 @@ services:
       - dockernetwork
 
   clienteservice:
-    image: clienteservice
+    image: easantos0001/clienteservice
     container_name: ClienteService
     build:
       context: .
@@ -58,7 +58,7 @@ services:
       - dockernetwork
 
   notificationservice:
-    image: notificationservice
+    image: easantos0001/notificationservice
     container_name: NotificationService
     build:
       context: .
